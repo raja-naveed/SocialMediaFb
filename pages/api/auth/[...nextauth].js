@@ -5,8 +5,8 @@ export const authOptions = {
   // Configure one or more authentication providers
   providers: [
     GoggleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: "435913252922-h99hsmk8kdfkn0ujc9deg7aoa5r6a5qt.apps.googleusercontent.com",
+      clientSecret: "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",
     }),
     // ...add more providers here
   ],
@@ -16,7 +16,7 @@ export const authOptions = {
       return session;
     },
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: "secret123",
 };
 
 export default NextAuth(authOptions);

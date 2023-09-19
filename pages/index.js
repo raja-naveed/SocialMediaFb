@@ -9,6 +9,7 @@ import Login from './../components/Login';
 
 export default function Home() {
   const { data: session } = useSession();
+  console.log(session);
   const router = useRouter();
 
   if (!session && !router.query.login) return <Login />;
