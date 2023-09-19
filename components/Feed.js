@@ -12,7 +12,8 @@ const Feed = () => {
     onSnapshot(
       query(collection(db, "posts"), orderBy("timestamp", "desc")),
       (snapshot) => {
-        setPosts(snapshot.docs);
+        // Use spread operator to merge new posts with existing ones
+        setPosts((prevPosts) => [...prevPosts, ...snapshot.docs]);
       }
     )
   );
