@@ -5,14 +5,22 @@ import { FaGlobeAmericas } from "react-icons/fa";
 import { AiOutlineLike, AiFillLike } from "react-icons/ai"; // Add AiFillLike for the filled like icon
 import { TfiComment } from "react-icons/tfi";
 import { useSession } from "next-auth/react";
-import { deleteDoc, doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 const Post = ({ data, id }) => {
-    const { data: session } = useSession();
-    console.log(session, "session")
+  const { data: session } = useSession();
+  console.log(session, "session");
   const [liked, setLiked] = useState(false);
-  const [likesCount, setLikesCount] = useState(data.likes ? data.likes.length : 0);
+  const [likesCount, setLikesCount] = useState(
+    data.likes ? data.likes.length : 0
+  );
 
   useEffect(() => {
     // Check if the current user has already liked the post
@@ -44,17 +52,15 @@ const Post = ({ data, id }) => {
       setLikesCount(likesCount - 1);
     }
 
-    // Toggle the liked state
+    // Toggle the liked state for this specific post
     setLiked(!liked);
   };
-
   const isAdmin = (post_data_id, session_id) => {
     if (post_data_id === session_id) return true;
     else if (session_id === "103122479951529079566") return true;
 
     return false;
   };
-
 
   return (
     <div className="py-4 bg-white rounded-[17px] shadow-md mt-5">
@@ -97,10 +103,17 @@ const Post = ({ data, id }) => {
       <div className="mx-4 h-[1px] bg-gray-300 mt-[15px]"></div>
 
       <div className="flex mt-[7px] text-gray-500">
-      <div className="flex gap-2 justify-center items-center w-[50%] py-2 rounded-[10px] hover:bg-gray-200 cursor-pointer" onClick={toggleLike}>
-        {liked ? <AiFillLike className="text-[26px]" /> : <AiOutlineLike className="text-[26px]" />}
-        <p className="font-medium">{likesCount} Likes</p>
-      </div>
+        <div
+          className="flex gap-2 justify-center items-center w-[50%] py-2 rounded-[10px] hover:bg-gray-200 cursor-pointer"
+          onClick={toggleLike}
+        >
+          {liked ? (
+            <AiFillLike className="text-[26px]" />
+          ) : (
+            <AiOutlineLike className="text-[26px]" />
+          )}
+          <p className="font-medium">{likesCount} Likes</p>
+        </div>
         <div className="flex gap-2 justify-center items-center w-[50%] py-2 rounded-[10px] hover:bg-gray-200 cursor-pointer">
           <TfiComment className="text-[20px] translate-y-[4px]" />
           <p className="font-medium">Comment</p>

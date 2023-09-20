@@ -8,14 +8,19 @@ import { db } from "../firebase";
 const Feed = () => {
   const [posts, setPosts] = useState([]);
 
-  useEffect(() =>
-    onSnapshot(
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
       query(collection(db, "posts"), orderBy("timestamp", "desc")),
       (snapshot) => {
         setPosts(snapshot.docs);
       }
-    )
-  );
+    );
+
+    return () => {
+      // Unsubscribe from the snapshot listener when the component unmounts
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="mx-auto mt-4 max-w-[600px] 2xl:max-w-[800px] mb-10">
