@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BsFacebook, BsMessenger } from "react-icons/bs";
 import { AiOutlineSearch, AiFillHome } from "react-icons/ai";
 import { IoStorefrontOutline, IoNotifications } from "react-icons/io5";
@@ -7,7 +7,15 @@ import { signOut, useSession } from "next-auth/react";
 
 const Navbar = () => {
   const { data: session } = useSession();
+  const [showDropdown, setShowDropdown] = useState(false);
 
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  const handleLogout = () => {
+    signOut();
+  };
   return (
     <div className="py-2 px-4 bg-white shadow-md flex justify-between items-center top-0 sticky z-50">
       <div className="flex items-center gap-2">
@@ -51,12 +59,26 @@ const Navbar = () => {
           <IoNotifications />
         </div>
 
-        <img
-          className="w-[44px] cursor-pointer rounded-full"
-          src={session?.user?.image}
-          alt="dp"
-          onClick={signOut}
-        />
+        <div className="relative cursor-pointer">
+          <img
+            className="w-[44px] rounded-full"
+            src={session?.user?.image}
+            alt="dp"
+            onClick={toggleDropdown}
+          />
+          {showDropdown && (
+            <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg">
+              <ul>
+                <li
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
